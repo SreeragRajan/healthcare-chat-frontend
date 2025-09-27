@@ -1,4 +1,3 @@
-// src/services/documents.js
 import { uploadDocument as parseFile } from "./documentsService.js";
 
 // Load from localStorage

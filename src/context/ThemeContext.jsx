@@ -2,7 +2,6 @@ import { createContext, useEffect, useState } from "react";
 
 export const ThemeContext = createContext();
 
-// Immediately apply theme to avoid flicker
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme) {
   document.documentElement.classList.add(savedTheme === "dark" ? "dark" : "light");

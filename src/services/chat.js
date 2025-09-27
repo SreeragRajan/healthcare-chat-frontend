@@ -1,6 +1,5 @@
-// --------------------
+
 // Mock Chat Storage
-// --------------------
 let mockMessages = JSON.parse(localStorage.getItem("mockMessages")) || [];
 
 // Mock document storage (for search)
@@ -22,9 +21,8 @@ function simulateResponse(data, delay = 500) {
   );
 }
 
-// --------------------
+
 // Keyword + document search
-// --------------------
 const handleUserMessage = (message) => {
   let response = "I'm not sure, please check your document.";
 
@@ -57,7 +55,6 @@ const searchDocs = (keyword) => {
     const index = contentLower.indexOf(lowerKeyword);
 
     if (index !== -1) {
-      // Extract snippet around the keyword (100 chars before and after)
       const start = Math.max(0, index - 10);
       const end = Math.min(doc.content.length, index + 200);
       const snippet = doc.content.substring(start, end);
@@ -70,9 +67,8 @@ const searchDocs = (keyword) => {
 };
 
 
-// --------------------
+
 // Intercept fetch calls
-// --------------------
 const originalFetch = window.fetch;
 window.fetch = async (url, options = {}) => {
   // GET chat history

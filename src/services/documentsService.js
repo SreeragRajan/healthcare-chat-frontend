@@ -1,4 +1,3 @@
-// src/services/documentsService.js
 import * as pdfjsLib from "pdfjs-lib";
 import mammoth from "mammoth";
 
