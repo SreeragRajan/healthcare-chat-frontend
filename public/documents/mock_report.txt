@@ -1,0 +1,39 @@
+Patient Name: John Doe
+Age: 45
+Gender: Male
+Patient ID: 123456
+
+Discharge Summary:
+-----------------
+Admission Date: 2024-09-15
+Discharge Date: 2024-09-20
+Diagnosis: Acute Bronchitis
+
+Medications Prescribed:
+- Amoxicillin 500mg, 3 times a day for 7 days
+- Paracetamol 500mg, as needed for fever
+- Salbutamol Inhaler, 2 puffs every 6 hours
+
+Lab Results:
+-------------
+Blood Test:
+- WBC: 11,000 /µL
+- RBC: 4.5 million /µL
+- Hemoglobin: 13.5 g/dL
+
+Chest X-Ray:
+- Mild infiltration in the right lower lobe
+
+Allergies:
+-----------
+- Penicillin
+
+Treatment Plan:
+---------------
+- Complete full course of antibiotics
+- Follow-up visit in 1 week
+- Maintain hydration and rest
+
+Notes:
+------
+Patient is advised to avoid smoking and environmental pollutants. Monitor temperature and report if fever persists.
