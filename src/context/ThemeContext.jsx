@@ -2,24 +2,19 @@ import { createContext, useEffect, useState } from "react";
 
 export const ThemeContext = createContext();
 
+// Immediately apply theme to avoid flicker
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme) {
+  document.documentElement.classList.add(savedTheme === "dark" ? "dark" : "light");
+} else {
+  document.documentElement.classList.add("light");
+}
+
 export const ThemeProvider = ({ children }) => {
-    
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(savedTheme || "light");
 
-  // Load saved theme
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else {
-      setTheme("light");
-    }
-  }, []);
-
-  // Apply theme to Html document
-  useEffect(() => {
-    if (theme == "dark") {
+    if (theme === "dark") {
       document.documentElement.classList.add("dark");
       document.documentElement.classList.remove("light");
     } else {
@@ -29,7 +24,6 @@ export const ThemeProvider = ({ children }) => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // toggle theme
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };

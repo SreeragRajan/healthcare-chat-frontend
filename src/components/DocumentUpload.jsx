@@ -21,7 +21,7 @@ const DocumentUpload = () => {
   }, []);
 
   // Handle files from drag/drop or browse
-const handleFiles = async (files) => {
+  const handleFiles = async (files) => {
     for (const file of files) {
       if (!file) continue;
       setLoading(true);
@@ -36,7 +36,6 @@ const handleFiles = async (files) => {
     }
   };
 
-
   // Handle file deletion
   const handleDelete = async (id) => {
     try {
@@ -48,14 +47,14 @@ const handleFiles = async (files) => {
   };
 
   return (
-    <main className="flex-1 px-10 py-8">
+    <main className="flex-1 px-4 sm:px-6 lg:px-10 py-6 sm:py-8">
       <div className="mx-auto max-w-5xl">
         {/* Upload Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-black dark:text-white">
+        <div className="mb-6 sm:mb-8 text-center sm:text-left">
+          <h1 className="text-2xl sm:text-3xl font-bold text-black dark:text-white">
             Upload Documents
           </h1>
-          <p className="text-black/60 dark:text-white/60 mt-1">
+          <p className="text-sm sm:text-base text-black/60 dark:text-white/60 mt-1">
             Drag and drop your healthcare documents here or browse files from
             your computer.
           </p>
@@ -63,7 +62,7 @@ const handleFiles = async (files) => {
 
         {/* Drag & Drop Upload */}
         <div
-          className="flex flex-col items-center gap-6 rounded-xl border-2 border-dashed border-blue-500 bg-primary/10 dark:bg-primary/20 px-6 py-16 text-center cursor-pointer"
+          className="flex flex-col items-center gap-4 sm:gap-6 rounded-xl border-2 border-dashed border-blue-500 bg-primary/10 dark:bg-primary/20 px-4 sm:px-6 py-10 sm:py-16 text-center cursor-pointer"
           onDrop={(e) => {
             e.preventDefault();
             handleFiles(e.dataTransfer.files);
@@ -74,15 +73,14 @@ const handleFiles = async (files) => {
             <span>
               <UploadIcon size={30} />
             </span>
-            <p className="text-lg font-bold text-black dark:text-white">
+            <p className="text-base sm:text-lg font-bold text-black dark:text-white">
               Drag and drop files here
             </p>
-            <p className="text-sm text-black/60 dark:text-white/60">
-              Limit 200MB per file
-            </p>
           </div>
-          <label className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-blue-500 text-white text-sm font-bold shadow-sm hover:bg-primary/80 transition-colors">
-            <span className="truncate">{loading ? "Uploading..." : "Browse Files"}</span>
+          <label className="flex w-full sm:w-auto max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 sm:px-5 bg-blue-500 text-white text-sm font-bold shadow-sm hover:bg-primary/80 transition-colors">
+            <span className="truncate">
+              {loading ? "Uploading..." : "Browse Files"}
+            </span>
             <input
               type="file"
               multiple
@@ -92,12 +90,14 @@ const handleFiles = async (files) => {
           </label>
         </div>
 
-        {/* Uploaded Files Table */}
-        <DocumentList
-          documents={documents}
-          loading={loading}
-          onDelete={handleDelete}
-        />
+        {/* Uploaded Files Table (Responsive with horizontal scroll) */}
+        <div className="mt-8 sm:mt-10 overflow-x-auto">
+          <DocumentList
+            documents={documents}
+            loading={loading}
+            onDelete={handleDelete}
+          />
+        </div>
       </div>
     </main>
   );
