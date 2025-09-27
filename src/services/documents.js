@@ -1,17 +1,15 @@
-// --------------------
-// Mock Document Storage
-// --------------------
-let mockDocuments = [
-  {
-    id: "1",
-    name: "discharge_summary.pdf",
-    type: "application/pdf",
-    size: 245760,
-    uploadDate: "2024-09-20T10:30:00Z",
-    status: "processed",
-  },
-];
+// src/services/documents.js
+import { uploadDocument as parseFile } from "./documentsService.js";
 
+// Load from localStorage
+let mockDocuments = JSON.parse(localStorage.getItem("mockDocuments")) || [];
+
+// Save helper
+function saveDocuments() {
+  localStorage.setItem("mockDocuments", JSON.stringify(mockDocuments));
+}
+
+// Simulate fetch response
 function simulateResponse(data, delay = 500) {
   return new Promise((resolve) =>
     setTimeout(
@@ -27,36 +25,44 @@ function simulateResponse(data, delay = 500) {
   );
 }
 
-// --------------------
-// Intercept fetch calls
-// --------------------
+// Intercept fetch
 const originalFetch = window.fetch;
 window.fetch = async (url, options = {}) => {
-  // GET /api/documents
+  // GET documents
   if (url === "/api/documents" && (!options.method || options.method === "GET")) {
     return simulateResponse([...mockDocuments]);
   }
 
-  // POST /api/documents/upload
+  // POST upload
   if (url === "/api/documents/upload" && options.method === "POST") {
-    const file = JSON.parse(options.body);
+    const file = options.body instanceof File ? options.body : null;
+    if (!file) return simulateResponse({ error: "No file provided" }, 400);
+
+    // Parse content
+    const parsed = await parseFile(file);
+
     const newDoc = {
-      id: Date.now().toString(),
-      ...file,
-      uploadDate: new Date().toISOString(),
-      status: "processed",
+      id: parsed.id,
+      name: parsed.name,
+      type: parsed.type,
+      size: parsed.size,
+      uploadDate: parsed.uploadDate,
+      status: parsed.status,
+      content: parsed.content,
     };
+
     mockDocuments.push(newDoc);
+    saveDocuments();
     return simulateResponse(newDoc, 800);
   }
 
-  // DELETE /api/documents/{id}
+  // DELETE document
   if (url.startsWith("/api/documents/") && options.method === "DELETE") {
     const id = url.split("/").pop();
     mockDocuments = mockDocuments.filter((d) => d.id !== id);
+    saveDocuments();
     return simulateResponse({ success: true, id });
   }
 
-  // fallback → real fetch
   return originalFetch(url, options);
 };

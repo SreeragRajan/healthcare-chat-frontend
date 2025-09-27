@@ -26,33 +26,35 @@ const Faqs = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-gray-100 text-black dark:bg-gray-900 dark:text-white">
+    <section className="py-12 sm:py-16 md:py-24 bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground-light dark:text-foreground-dark">
+        {/* Header */}
+        <div className="text-center mb-12 px-2 sm:px-0">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
             Frequently Asked Questions
           </h2>
-          <p className="mt-4 text-lg text-foreground-muted-light dark:text-foreground-muted-dark max-w-2xl mx-auto opacity-80">
-            Your questions answered. Find out more about how we protect your
-            data and help you understand it.
+          <p className="mt-4 text-base sm:text-lg md:text-xl max-w-2xl mx-auto opacity-80">
+            Your questions answered. Find out more about how we protect your data and help you understand it.
           </p>
         </div>
+
+        {/* FAQ List */}
         <div className="max-w-3xl mx-auto space-y-4">
           {faqs.map((faq, idx) => (
             <details
               key={idx}
-              className="group p-6 rounded-xl border border-gray-300 bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300"
+              className="group p-4 sm:p-6 rounded-xl border border-gray-300 bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300"
             >
               <summary className="flex items-center justify-between cursor-pointer list-none">
-                <h3 className="text-lg font-semibold text-foreground-light dark:text-foreground-dark">
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold">
                   {faq.question}
                 </h3>
                 <Plus
                   className="text-blue-500 transition-transform duration-300 group-open:rotate-45"
-                  size={24}
+                  size={20}
                 />
               </summary>
-              <div className="mt-4 text-foreground-muted-light dark:text-foreground-muted-dark opacity-80">
+              <div className="mt-2 sm:mt-4 text-sm sm:text-base md:text-lg opacity-80">
                 <p>{faq.answer}</p>
               </div>
             </details>

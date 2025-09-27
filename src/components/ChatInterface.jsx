@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import MessageBubble from "./MessageBubble";
-import { getChatHistory, sendMessage } from "../services/api";
-import LoadingSpinner from "./LoadingSpinner"; 
+import { getChatHistory, sendMessage, parseDocument } from "../services/api.js"; 
+import LoadingSpinner from "./LoadingSpinner";
+import { Search, Upload } from "lucide-react";
 
 const ChatInterface = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const messagesEndRef = useRef(null);
 
-  // Fetch chat history on mount
+  // Fetch chat history
   useEffect(() => {
     const fetchHistory = async () => {
       const history = await getChatHistory();
@@ -18,12 +20,12 @@ const ChatInterface = () => {
     fetchHistory();
   }, []);
 
-  // Auto-scroll to bottom when messages update
+  // Auto-scroll
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Handle sending message
+  // Send message
   const handleSend = async () => {
     if (!input.trim()) return;
     const userMessage = {
@@ -52,7 +54,7 @@ const ChatInterface = () => {
     }
   };
 
-  // Handle Enter key
+  // Enter key handler
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -60,49 +62,57 @@ const ChatInterface = () => {
     }
   };
 
+
+  // Filtered messages
+  const filteredMessages = messages.filter((msg) =>
+    msg.content.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="relative flex h-[85vh] w-full flex-col overflow-hidden bg-background-dark font-display text-gray-200">
-      {/* Main Chat */}
-      <main className="flex-1 overflow-y-auto p-6 pb-22">
-        <div className="mx-auto max-w-4xl space-y-8">
-          {messages.map((msg, idx) => (
-            <MessageBubble
-              key={idx}
-              sender={msg.type === "user" ? "You" : "System"}
-              text={msg.content}
-              time={new Date(msg.timestamp).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-              avatar={
-                msg.type === "user"
-                  ? "https://lh3.googleusercontent.com/aida-public/AB6AXuCJWikMvYISw-1d9ZH_bO4QQF_QmdR8ZncgANruZyaTGSdJ3vpcQDpjF387fY8zDeE57Avw-mBN6XY96RoAO1VEFFguFB0ZQVeguZCQNQvuCQcaYRJGj9bv4tElmk_MyySI1UyKhJAvwR48wHKN427DSmz_0Hb4TrM8fVGSuqdTuTzmWbXwQhzbYWWobImScpWlsrAxiZsTAPA4u-OH1__d3l_ZVyrVm3TTRUJrU6qTstqGihk9PaRc8y_KSPPk64DwzZB49cZ3-oU"
-                  : "https://lh3.googleusercontent.com/aida-public/AB6AXuAlRIavgGtatA_MI8UttRznVQhB_FT6iC9WK1tDou3aPy0lo6RXyNJ7_48TtZjJrtK2FxXZvT2EETu92EAuxFVyjtZ8JEfamt-0byftIf85066eqkyezVnIMEploZWD3B7tN77VWFRI8QslmQUezXSYDm9OZqOimOleKKi4C4jN37OnHSZxg7Bb13A9rfhMjD6guC0CorTNb_GP7D7cBMRXFEjn94lPw-gppyqNoEBVB0ktuA9zKaUJAfsbyzLU87wOFx-f0XeF4ts"
-              }
-              isYou={msg.type === "user"}
-              failed={msg.failed}
-            />
-          ))}
-          {loading && (
-            <div className="flex justify-center py-2">
-              <LoadingSpinner size={24} color="#60A5FA" /> 
-            </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
+    <div className="relative flex h-[88vh] w-full flex-col overflow-hidden bg-background-dark font-display text-gray-200">
+      {/* Search */} 
+      <div className=" pb-2 pt-2 mr-4 border-b border-gray-700/30 bg-background-dark flex items-center gap-3">
+        <Search size={20} color="gray" />
+        <input
+          type="text"
+          placeholder="Search messages..."
+          className="outline-none flex-1 rounded-md px-3 py-2 bg-gray-800 text-gray-200 text-sm focus:ring focus:ring-blue-500/50"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+       
+      </div>
+
+      {/* Chat Section */}
+      <main className="flex-1 overflow-y-auto p-6 pb-28">
+        {filteredMessages.map((msg, idx) => (
+          <MessageBubble
+            key={idx}
+            sender={msg.type === "user" ? "You" : "System"}
+            text={msg.content}
+            time={new Date(msg.timestamp).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+            isYou={msg.type === "user"}
+            failed={msg.failed}
+          />
+        ))}
+        {loading && (
+          <div className="flex justify-center py-2">
+            <LoadingSpinner size={24} color="#60A5FA" />
+          </div>
+        )}
+        {filteredMessages.length === 0 && !loading && (
+          <p className="text-center text-gray-500 text-sm">No messages found</p>
+        )}
+        <div ref={messagesEndRef} />
       </main>
 
-      {/* Footer */}
-      <footer className="absolute bottom-0 bg-background-dark/90 backdrop-blur-sm border-t border-blue-700/30 p-4 w-full">
+      {/* Footer Input */}
+      <footer className="absolute bottom-[-1%] bg-background-dark/90 backdrop-blur-sm border-t border-blue-700/30 p-4 w-full">
         <div className="mx-auto max-w-4xl">
           <div className="relative flex items-center gap-4">
-            <div
-              className="h-10 w-10 shrink-0 rounded-full bg-cover bg-center"
-              style={{
-                backgroundImage:
-                  "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBHRiFzipwaxXcPfb3JCyTwzlpV_RFeWghqubkcTQzaRSFMCagFox9X29kCGaMbjEvs8Nu4AAX8Ebu0F2PHOZP4sUCNLy0ZIXZyW96gow8PcSC0Pk8b6GXCCjjrOr8fEzDKtPupWuDHClIDLy4Xc1kdmvKzMoBbPL7MMKGCVkYNbiSzOmVoDnQVkSJV27Pxe45M33ByJmd4PWJrJ3NiDFh6n0_f3mYSPh4tYCYnQy3Vai7ggTlb2mShST8R4vT8ucwq0b8MAjooVMA')",
-              }}
-            />
             <div className="relative flex-1">
               <textarea
                 className="form-textarea flex items-center w-full resize-none rounded-lg border-blue-700/50 bg-gray-800 text-gray-200 px-4 py-3 pr-24 focus:border-blue-500 focus:ring-blue-500/50 transition-all"
@@ -123,11 +133,9 @@ const ChatInterface = () => {
               </div>
             </div>
           </div>
-          <div className="pl-16 pr-2 mt-2 flex justify-between items-center text-xs text-gray-400">
+          <div className="mt-2 flex justify-between items-center text-xs text-gray-400">
             <p>
-              Press <kbd className="font-sans font-semibold">Enter</kbd> to
-              send, <kbd className="font-sans font-semibold">Shift + Enter</kbd>{" "}
-              for a new line.
+              Press <kbd>Enter</kbd> to send, <kbd>Shift + Enter</kbd> for a new line.
             </p>
             <p>{input.length}/2000</p>
           </div>

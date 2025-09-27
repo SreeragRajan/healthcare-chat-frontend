@@ -1,6 +1,7 @@
 import { UploadIcon } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { uploadDocument, getDocuments, deleteDocument } from "../services/api.js";
+import DocumentList from "./DocumentList.jsx";
 
 const DocumentUpload = () => {
   const [documents, setDocuments] = useState([]);
@@ -20,31 +21,21 @@ const DocumentUpload = () => {
   }, []);
 
   // Handle files from drag/drop or browse
-  const handleFiles = async (files) => {
+const handleFiles = async (files) => {
     for (const file of files) {
       if (!file) continue;
       setLoading(true);
       try {
-        // Format file metadata for API
-        const fileData = {
-          name: file.name,
-          size: file.size,
-          type: file.type,
-        };
-        const uploaded = await uploadDocument(fileData);
-
-        // Avoid duplicate entries
-        setDocuments((prev) => {
-          const exists = prev.find((doc) => doc.id === uploaded.id);
-          return exists ? prev : [...prev, uploaded];
-        });
+        const uploaded = await uploadDocument(file); // send File directly
+        setDocuments((prev) => [...prev, uploaded]);
       } catch (err) {
-        console.error("Upload error:", err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
     }
   };
+
 
   // Handle file deletion
   const handleDelete = async (id) => {
@@ -102,74 +93,11 @@ const DocumentUpload = () => {
         </div>
 
         {/* Uploaded Files Table */}
-        <div className="mt-10">
-          <h3 className="text-xl font-bold text-black dark:text-white mb-4">
-            Uploaded Files
-          </h3>
-          <div className="overflow-x-auto rounded-lg border border-black/10 dark:border-white/10 bg-background-light dark:bg-background-dark">
-            <table className="w-full text-left">
-              <thead className="bg-black/5 dark:bg-white/5">
-                <tr>
-                  <th className="p-4 text-sm font-semibold text-black/80 dark:text-white/80">
-                    Name
-                  </th>
-                  <th className="p-4 text-sm font-semibold text-black/80 dark:text-white/80">
-                    Size
-                  </th>
-                  <th className="p-4 text-sm font-semibold text-black/80 dark:text-white/80">
-                    Type
-                  </th>
-                  <th className="p-4 text-sm font-semibold text-black/80 dark:text-white/80">
-                    Upload Date
-                  </th>
-                  <th className="p-4 text-sm font-semibold text-black/80 dark:text-white/80">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-black/10 dark:divide-white/10">
-                {documents.map((file) => (
-                  <tr key={file.id}>
-                    <td className="p-4 text-sm text-black dark:text-white">
-                      {file.name}
-                    </td>
-                    <td className="p-4 text-sm text-black/60 dark:text-white/60">
-                      {(file.size / (1024 * 1024)).toFixed(2)} MB
-                    </td>
-                    <td className="p-4 text-sm text-black/60 dark:text-white/60">
-                      {file.type?.split("/")[1]?.toUpperCase() || "N/A"}
-                    </td>
-                    <td className="p-4 text-sm text-black/60 dark:text-white/60">
-                      {new Date(file.uploadDate).toLocaleDateString()}
-                    </td>
-                    <td className="p-4">
-                      <button
-                        onClick={() => handleDelete(file.id)}
-                        className="text-red-500 hover:text-red-600 text-sm font-medium transition-colors cursor-pointer"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-                {documents.length === 0 && !loading && (
-                  <tr>
-                    <td colSpan="5" className="p-4 text-center text-black/50 dark:text-white/50">
-                      No documents uploaded yet
-                    </td>
-                  </tr>
-                )}
-                {loading && (
-                  <tr>
-                    <td colSpan="5" className="p-4 text-center text-black/50 dark:text-white/50">
-                      Uploading...
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <DocumentList
+          documents={documents}
+          loading={loading}
+          onDelete={handleDelete}
+        />
       </div>
     </main>
   );

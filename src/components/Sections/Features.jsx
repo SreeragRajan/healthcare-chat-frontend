@@ -24,27 +24,38 @@ const Features = () => {
   ];
 
   return (
-    <section id="features" className="py-16 sm:pt-24 sm:pb-32 bg-gray-100 text-black dark:bg-gray-900 dark:text-white">
+    <section
+      id="features"
+      className="py-16 sm:pt-24 sm:pb-32 bg-gray-100 text-black dark:bg-gray-900 dark:text-white"
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">Key Features</h2>
-          <p className="mt-4 text-lg text-foreground-muted-light dark:text-foreground-muted-dark max-w-2xl mx-auto opacity-80">
-            Explore the capabilities that make managing your health information easier than ever.
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
+            Key Features
+          </h2>
+          <p className="mt-4 text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto opacity-90">
+            Explore the capabilities that make managing your health information
+            easier than ever.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-12">
           {featuresData.map((feature, idx) => {
-            const Icon = feature.icon; 
+            const Icon = feature.icon;
             return (
               <div
                 key={idx}
-                className="bg-white text-black dark:bg-gray-900 dark:text-white border border-gray-300 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className="bg-white text-black dark:bg-gray-900 dark:text-white border border-gray-300 p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center"
               >
-                <div className="flex items-center justify-center h-12 w-12 rounded-full bg-blue-500/10 mb-4">
-                  <Icon className="text-blue-500 text-3xl" />
+                <div className="flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-blue-500/10 mb-4">
+                  <Icon className="text-blue-500 text-3xl sm:text-4xl" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-foreground-muted-light dark:text-foreground-muted-dark opacity-80">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base md:text-base opacity-90">
                   {feature.description}
                 </p>
               </div>

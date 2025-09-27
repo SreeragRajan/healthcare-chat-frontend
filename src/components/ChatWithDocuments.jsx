@@ -5,12 +5,16 @@ import DocumentPreview from "./DocumentPreview";
 
 const ChatWithDocuments = () => {
   return (
-    <div className="w-full flex p-6">
+    <div className="flex h-[88vh] w-full gap-4 p-4">
       {/* Left Side Chat */}
-      <ChatInterface className="md:col-span-2" />
+      <div className="flex-1 flex flex-col border-r border-gray-700/40">
+        <ChatInterface />
+      </div>
 
       {/* Right Side Document Preview */}
-      <DocumentPreview />
+      <div className="w-1/3 flex flex-col">
+        <DocumentPreview />
+      </div>
     </div>
   );
 };
