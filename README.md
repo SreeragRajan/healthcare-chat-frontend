@@ -1,7 +1,5 @@
 # HealthChat - AI-Powered Healthcare Document Assistant
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
 ---
 
 ## **Project Overview**
@@ -28,12 +26,6 @@
 
 **Upload Page and Document List**
 ![Upload Page and Document List](./screenshots/UploadDocumentsAndList.png)
-
----
-
-## **Demo / Live Link**
-
-- **Live Demo:** [Insert your deployed link here]
 
 ---
 
@@ -125,19 +117,3 @@ npm run build
 - Some document formats may not fully render.
 
 ---
-
-## **License**
-
-MIT License. See [LICENSE](./LICENSE) for details.
-
----
-
-## **Contributing**
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
----
-
-## **Support**
-
-For support, please open an issue in the repository or contact the development team.
