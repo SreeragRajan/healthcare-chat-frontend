@@ -6,9 +6,10 @@
 
 ## **Project Overview**
 
-**HealthChat** is a web application that allows users to upload their medical documents and chat with an AI assistant to gain insights into their health. It provides instant answers, highlights document context, and ensures full privacy by processing data locally.  
+**HealthChat** is a web application that allows users to upload their medical documents and chat with an AI assistant to gain insights into their health. It provides instant answers, highlights document context, and ensures full privacy by processing data locally.
 
 **Key Highlights:**
+
 - AI-powered chat with your health documents
 - Document context awareness
 - Dark/Light theme support
@@ -20,74 +21,85 @@
 ## **Screenshots**
 
 **Home / Hero Section**
-![Hero Section](./screenshots/hero.png)
+![Hero Section](./screenshots/HeroPage.png)
 
 **Chat Interface with Document Preview**
-![Chat Interface](./screenshots/chat_interface.png)
+![Chat Interface and Preview](./screenshots/chatInterfaceAndPreview.png)
 
-**Features**
-![Features Section](./screenshots/features.png)
-
-**FAQ Section**
-![FAQ Section](./screenshots/faqs.png)
+**Upload Page and Document List**
+![Upload Page and Document List](./screenshots/UploadDocumentsAndList.png)
 
 ---
 
 ## **Demo / Live Link**
 
-- **Live Demo:** [Insert your deployed link here]  
+- **Live Demo:** [Insert your deployed link here]
 
 ---
 
 ## **Tech Stack**
 
-- **Frontend:** React, Tailwind CSS, Framer Motion  
-- **Icons:** Lucide-react  
-- **State Management:** React Context API  
-- **Other Libraries:** react-router-dom (routing), pdfjs-Lib(for pdf data extraction), mammoth(for docs data extraction)   
+- **Frontend:** React, Tailwind CSS, Framer Motion
+- **Icons:** Lucide-react
+- **State Management:** React Context API
+- **Document Processing:** pdfjs-dist (for PDF data extraction), mammoth (for DOCX data extraction)
+- **Routing:** react-router-dom
 
-**Reasoning:**  
-- React for responsive and component-based architecture  
-- Tailwind CSS for modern styling and responsiveness  
-- Framer Motion for smooth animations  
-- Context API for simple state management  
+**Reasoning:**
+
+- React for responsive and component-based architecture
+- Tailwind CSS for modern styling and responsiveness
+- Framer Motion for smooth animations
+- Context API for simple state management
 
 ---
 
 ## **Installation & Setup**
 
 1. **Clone the repository**
+
 ```bash
 git clone <your-repo-url>
 cd healthchat
+```
 
 2. **Install dependencies**
+
 ```bash
 npm install
+```
 
 3. **Run the app**
+
 ```bash
 npm run dev
+```
 
 4. **Build for production**
+
 ```bash
 npm run build
+```
 
---- 
+---
 
-## Folder Structure
+## **Folder Structure**
+
+```
 /src
   /components    # Reusable components (ChatInterface, MessageBubble, DocumentPreview, etc.)
-  /sections         # Route pages (Home, Document, Chat)
+  /sections      # Route pages (Home, Document, Chat)
   /services      # API calls (fetch documents, send chat messages)
   /context       # Context providers (ThemeContext)
   /assets        # Images, icons, and static files
   App.jsx
   index.jsx
+```
 
 ---
 
-## Features
+## **Features**
+
 - Upload and preview medical documents
 - AI-powered chat with context from documents
 - Dark and light theme support
@@ -98,7 +110,8 @@ npm run build
 
 ---
 
-## Usage
+## **Usage**
+
 1. Navigate to the upload page and upload your medical documents.
 2. Open chat interface and ask questions about your health records.
 3. Use "Preview" (on mobile) to view documents while chatting.
@@ -106,11 +119,25 @@ npm run build
 
 ---
 
-## Known Issues / Limitations
+## **Known Issues / Limitations**
+
 - AI answers are for informational purposes only, not a substitute for medical advice.
 - Some document formats may not fully render.
 
 ---
 
-## License
+## **License**
+
 MIT License. See [LICENSE](./LICENSE) for details.
+
+---
+
+## **Contributing**
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+## **Support**
+
+For support, please open an issue in the repository or contact the development team.
